@@ -1,5 +1,6 @@
 package com.example.fileuploaduser;
 
+import java.io.ObjectOutputStream.PutField;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -7,7 +8,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.Menu;
 import android.widget.ListView;
 
@@ -15,13 +18,16 @@ public class FileActivity extends Activity {
 
 	private ListView ListViewAcara;
 	private ArrayList<Token> ListFile = new ArrayList<Token>();
+
 	private FileAdapter fileAdapter;
 	private String myToken;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.filepage);
+
+		// ambil token yg dikirim dari loginActivity
 		myToken = getIntent().getStringExtra("token");
 
 		ListViewAcara = (ListView) findViewById(R.id.listView1);
@@ -38,15 +44,16 @@ public class FileActivity extends Activity {
 
 				try {
 					JSONArray myFiles = new JSONArray(respons);
-					//JSONArray arrayEvent = objEvent.getJSONArray("listEvent");
+					// JSONArray arrayEvent =
+					// objEvent.getJSONArray("listEvent");
 
 					for (int i = 0; i < myFiles.length(); i++) {
 						JSONObject objectAcara = myFiles.getJSONObject(i);
 
 						String namaFile = objectAcara.getString("filename");
 						String Url = objectAcara.getString("url");
-						
-						Token singleAcara = new Token(namaFile,Url);
+
+						Token singleAcara = new Token(namaFile, Url);
 						ListFile.add(singleAcara);
 					}
 					fileAdapter.notifyDataSetChanged();
@@ -59,7 +66,9 @@ public class FileActivity extends Activity {
 			}
 
 		};
-		getEvent.execute("https://www.qisc.us/api/v1/mobile/getFiles?token="+myToken+"&all=true");
+		getEvent.execute("https://www.qisc.us/api/v1/mobile/getFiles?token="
+				+ myToken + "&all=true");
+
 	}
 
 	@Override

@@ -8,14 +8,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener {
@@ -23,7 +26,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 	Button loginBtn;
 	EditText aemail, apass, pesan;
 	private String url = "https://www.qisc.us/users/sign_in.json";
-
+	private ProgressDialog loading;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,7 +36,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		aemail = (EditText) findViewById(R.id.editTextUsername);
 		apass = (EditText) findViewById(R.id.editTextPass);
 		loginBtn = (Button) findViewById(R.id.btnLogin);
-		pesan = (EditText) findViewById(R.id.editTextStatus);
+
 		loginBtn.setOnClickListener(this);
 	}
 
@@ -47,6 +51,20 @@ public class LoginActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		
+		//membuat loading
+		loading = ProgressDialog.show(LoginActivity.this, "", "Loading");
+		new Thread(){
+			public void run(){
+			try{
+				sleep(10000);
+			}catch (Exception e){
+				Log.e("tag", e.getMessage());
+			}
+			loading.dismiss();
+			}
+		}.start();
+		
 
 		// mengolah json
 		KirimDataAsync kirimAsync = new KirimDataAsync() {
@@ -63,12 +81,13 @@ public class LoginActivity extends Activity implements OnClickListener {
 					// Token singleToken = new Token(Success, Token);
 
 					if (Success == "true") {
-						ShowToast("Lanjut ke page selanjutnya !");
+						ShowToast("Login Success!");
 						System.out.println(Token);
-						pesan.setText(Token);
+
 						PindahHalaman(Token);
-					} else {
-						ShowToast("login gagal");
+					}
+					if (Success == "false") {
+						ShowToast("Username or Password failed!");
 					}
 
 				} catch (JSONException e) {
@@ -87,22 +106,23 @@ public class LoginActivity extends Activity implements OnClickListener {
 		Toast.makeText(getApplicationContext(), pesan, Toast.LENGTH_SHORT)
 				.show();
 	}
-	
+
 	// membuat METHOD pindah halaman
-	private void PindahHalaman(String Token){
-		Intent pindah = new Intent(LoginActivity.this, FileActivity.class );
+	private void PindahHalaman(String Token) {
+		//diganti ke main
+		Intent pindah = new Intent(LoginActivity.this, MainActivity.class);
+		// parsing token dari loginActivity ke FileActivity
 		pindah.putExtra("token", Token);
 		startActivity(pindah);
 		finish();
 	}
-	
 
 	// POST data ke dan dari API
 	public abstract class KirimDataAsync extends
 			AsyncTask<String, String, String> {
 
 		public abstract void respon(String result);
-		
+
 		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
 			String respon = null;

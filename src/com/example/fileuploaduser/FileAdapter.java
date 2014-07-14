@@ -34,7 +34,8 @@ public class FileAdapter extends ArrayAdapter<Token> {
 		
 		TextView textNama   = (TextView) convertView.findViewById(R.id.textViewName);
 		TextView textUrl = (TextView) convertView.findViewById(R.id.textViewUrl);
-
+		
+		//untuk membuat url aktif
 		textUrl.setAutoLinkMask(Linkify.ALL);
 		
 		textNama.setText(file.getNama());
