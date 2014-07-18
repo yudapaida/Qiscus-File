@@ -1,11 +1,13 @@
 package com.example.fileuploaduser;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
 public abstract class GetFile extends AsyncTask<String, String, String> {
 
 	public abstract void respon(String respon);
-	
+	ProgressDialog loading;
 	
 	@Override
 	protected String doInBackground(String... arg0) {
@@ -29,12 +31,20 @@ public abstract class GetFile extends AsyncTask<String, String, String> {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		respon(result);
+		//loading.dismiss();
 	}
 
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
+//		
+//		loading = new ProgressDialog(GetFile.this);
+//		loading.setMessage("Loading bentar...");
+//		loading.setIndeterminate(false);
+//		loading.setCancelable(false);
+//		loading.show();
+		
 	}
 
 }

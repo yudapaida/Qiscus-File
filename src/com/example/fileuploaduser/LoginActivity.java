@@ -27,7 +27,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	EditText aemail, apass, pesan;
 	private String url = "https://www.qisc.us/users/sign_in.json";
 	private ProgressDialog loading;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,24 +47,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 		return true;
 	}
 
-	// Acction jika di Click
+	// Action when the login button clicked
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		
-		//membuat loading
-		loading = ProgressDialog.show(LoginActivity.this, "", "Loading");
-		new Thread(){
-			public void run(){
-			try{
-				sleep(10000);
-			}catch (Exception e){
-				Log.e("tag", e.getMessage());
-			}
-			loading.dismiss();
-			}
-		}.start();
-		
 
 		// mengolah json
 		KirimDataAsync kirimAsync = new KirimDataAsync() {
@@ -83,7 +69,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 					if (Success == "true") {
 						ShowToast("Login Success!");
 						System.out.println(Token);
-
+						loading.dismiss();
+						
 						PindahHalaman(Token);
 					}
 					if (Success == "false") {
@@ -109,9 +96,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 	// membuat METHOD pindah halaman
 	private void PindahHalaman(String Token) {
-		//diganti ke main
+		// diganti ke main
 		Intent pindah = new Intent(LoginActivity.this, MainActivity.class);
-		// parsing token dari loginActivity ke FileActivity
+
+		// parsing token dari loginActivity ke MainActivity
 		pindah.putExtra("token", Token);
 		startActivity(pindah);
 		finish();
@@ -120,6 +108,30 @@ public class LoginActivity extends Activity implements OnClickListener {
 	// POST data ke dan dari API
 	public abstract class KirimDataAsync extends
 			AsyncTask<String, String, String> {
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+
+			// create the loading
+			// loading = ProgressDialog.show(LoginActivity.this, "", "Loading");
+			// new Thread() {
+			// public void run() {
+			// try {
+			// sleep(10000);
+			// } catch (Exception e) {
+			// Log.e("tag", e.getMessage());
+			// }
+			// loading.dismiss();
+			// }
+			// }.start();
+			loading = new ProgressDialog(LoginActivity.this);
+			loading.setMessage("Loading...");
+			loading.setIndeterminate(false);
+			loading.setCancelable(false);
+			loading.show();
+		}
 
 		public abstract void respon(String result);
 
@@ -150,6 +162,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
+			// loading.dismiss();
 			respon(result);
 		}
 

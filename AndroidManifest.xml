@@ -11,7 +11,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/qislogo"
+        android:icon="@drawable/qiscus"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -28,6 +28,9 @@
         </activity>
         <activity 
             android:name="MainActivity">
+        </activity>
+        <activity 
+            android:name="Menu_Type">
         </activity>
         
     </application>
