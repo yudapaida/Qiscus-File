@@ -35,7 +35,7 @@ public class FileActivity extends Activity {
 		fileAdapter = new FileAdapter(this, R.layout.item_filepage, ListFile);
 		ListViewAcara.setAdapter(fileAdapter);
 
-		GetFile getEvent = new GetFile() {
+		GetFile getEvent = new GetFile(getApplication()) {
 
 			@Override
 			public void respon(String respons) {

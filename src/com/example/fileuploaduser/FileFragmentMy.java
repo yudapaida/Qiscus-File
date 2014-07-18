@@ -40,7 +40,7 @@ public class FileFragmentMy extends Fragment {
 		MainActivity getMyToken = (MainActivity) getActivity();
 		TokenToken = getMyToken.getToken();
 		System.out.println("oncreate");
-		GetFile getEvent = new GetFile() {
+		GetFile getEvent = new GetFile(getActivity()) {
 
 			@Override
 			public void respon(String respons) {

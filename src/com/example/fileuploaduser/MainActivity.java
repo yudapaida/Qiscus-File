@@ -78,17 +78,17 @@ public class MainActivity extends FragmentActivity implements
 		 * On first tab we will show our list
 		 */
 		// buat loading
-		loading = ProgressDialog.show(MainActivity.this, "", "Loading");
-		new Thread() {
-			public void run() {
-				try {
-					sleep(10000);
-				} catch (Exception e) {
-					Log.e("tag", e.getMessage());
-				}
-				loading.dismiss();
-			}
-		}.start();
+//		loading = ProgressDialog.show(MainActivity.this, "", "Loading");
+//		new Thread() {
+//			public void run() {
+//				try {
+//					sleep(10000);
+//				} catch (Exception e) {
+//					Log.e("tag", e.getMessage());
+//				}
+//				loading.dismiss();
+//			}
+//		}.start();
 
 		if (tab.getPosition() == 0) {
 			FileFragmentMy myfile = new FileFragmentMy();

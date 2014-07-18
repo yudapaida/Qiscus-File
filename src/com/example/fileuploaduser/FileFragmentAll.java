@@ -52,7 +52,7 @@ public class FileFragmentAll extends Fragment {
 //			type = getFileType.getType();
 //			
 			System.out.println("oncreate");
-			GetFile getEvent = new GetFile() {
+			GetFile getEvent = new GetFile(getActivity()) {
 
 				@Override
 				public void respon(String respons) {

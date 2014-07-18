@@ -8,7 +8,15 @@ public abstract class GetFile extends AsyncTask<String, String, String> {
 
 	public abstract void respon(String respon);
 	ProgressDialog loading;
+	private Context contex;
 	
+	
+	
+	public GetFile(Context contex) {
+		super();
+		this.contex = contex;	
+	}
+
 	@Override
 	protected String doInBackground(String... arg0) {
 		// TODO Auto-generated method stub
@@ -31,19 +39,19 @@ public abstract class GetFile extends AsyncTask<String, String, String> {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 		respon(result);
-		//loading.dismiss();
+		loading.dismiss();
 	}
 
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
-//		
-//		loading = new ProgressDialog(GetFile.this);
-//		loading.setMessage("Loading bentar...");
-//		loading.setIndeterminate(false);
-//		loading.setCancelable(false);
-//		loading.show();
+		
+		loading = new ProgressDialog(contex);
+		loading.setMessage("Please wait...");
+		loading.setIndeterminate(false);
+		loading.setCancelable(false);
+		loading.show();
 		
 	}
 
