@@ -35,6 +35,7 @@ public class ClientToServer {
 			ArrayList<NameValuePair> postParameter) throws Exception {
 		BufferedReader in = null;
 		try {
+			
 			HttpClient klien = getHttpClient();
 			HttpPost req = new HttpPost(url);
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(

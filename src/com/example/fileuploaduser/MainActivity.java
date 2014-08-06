@@ -1,22 +1,17 @@
 package com.example.fileuploaduser;
 
-import java.lang.reflect.Array;
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Menu;
 
 @SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
-	private ProgressDialog loading;
+	
 	private String myToken;
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
@@ -24,10 +19,7 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activitymain);
 		myToken = getIntent().getStringExtra("token");
-		//
-		// Intent i = new Intent(this, FileFragmentAll.class);
-		// i.putExtra("myToken", myToken);
-
+		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -37,10 +29,9 @@ public class MainActivity extends FragmentActivity implements
 				.setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText("All File")
 				.setTabListener(this));
-		// actionBar.addTab(actionBar.newTab().setText(R.string.title_section3).setTabListener(this));
 	}
 
-	// fungsi getToken
+	// function getToken
 	public String getToken() {
 		return myToken;
 	}
@@ -77,19 +68,7 @@ public class MainActivity extends FragmentActivity implements
 		/**
 		 * On first tab we will show our list
 		 */
-		// buat loading
-//		loading = ProgressDialog.show(MainActivity.this, "", "Loading");
-//		new Thread() {
-//			public void run() {
-//				try {
-//					sleep(10000);
-//				} catch (Exception e) {
-//					Log.e("tag", e.getMessage());
-//				}
-//				loading.dismiss();
-//			}
-//		}.start();
-
+		
 		if (tab.getPosition() == 0) {
 			FileFragmentMy myfile = new FileFragmentMy();
 			getSupportFragmentManager().beginTransaction()

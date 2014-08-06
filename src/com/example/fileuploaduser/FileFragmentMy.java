@@ -23,7 +23,6 @@ import android.widget.ListView;
 public class FileFragmentMy extends Fragment {
 	EditText inputSearch;
 	ArrayAdapter<String> adapter;
-	private ListView ListViewAcara;
 
 	private ArrayList<Token> ListFile = new ArrayList<Token>();
 	private FileAdapter fileAdapter;
@@ -36,7 +35,7 @@ public class FileFragmentMy extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		System.out.println("A");
 
-		// ambil token
+		// get token
 		MainActivity getMyToken = (MainActivity) getActivity();
 		TokenToken = getMyToken.getToken();
 		System.out.println("oncreate");
@@ -49,8 +48,6 @@ public class FileFragmentMy extends Fragment {
 
 				try {
 					JSONArray myFiles = new JSONArray(respons);
-					// JSONArray arrayEvent =
-					// objEvent.getJSONArray("listEvent");
 
 					for (int i = 0; i < myFiles.length(); i++) {
 						JSONObject objectAcara = myFiles.getJSONObject(i);
@@ -103,6 +100,7 @@ public class FileFragmentMy extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		System.out.println("E");
+
 		View v = inflater.inflate(R.layout.filepage, container, false);
 		ListView lv = (ListView) v.findViewById(R.id.listView1);
 		fileAdapter = new FileAdapter(getActivity(), R.layout.item_filepage,
@@ -110,6 +108,7 @@ public class FileFragmentMy extends Fragment {
 
 		lv.setAdapter(fileAdapter);
 
+		// searching method
 		inputSearch = (EditText) v.findViewById(R.id.cari);
 		inputSearch.addTextChangedListener(new TextWatcher() {
 

@@ -60,25 +60,25 @@ public class FileAdapter extends ArrayAdapter<Token> {
 		TextView textUrl = (TextView) convertView
 				.findViewById(R.id.textViewUrl);
 
-		//for make url actived
+		// for make url actived
 		textUrl.setAutoLinkMask(Linkify.ALL);
 
 		textNama.setText(file.getNama());
 		textUrl.setText(file.getUrl());
 
-		//get Url
+		// get Url
 		a = file.getUrl();
-		
-		//for loading image from Url
+
+		// for loading image from Url
 		ImageView iv = (ImageView) convertView.findViewById(R.id.imgView);
-		
+
 		if (a.endsWith("jpg") || a.endsWith("png")) {
 			int loader = R.drawable.loader;
 			com.example.loadthumbnail.ImageLoader imgLoader = new com.example.loadthumbnail.ImageLoader(
 					context);
 			imgLoader.DisplayImage(a, loader, iv);
 		}
-		//set icons file
+		// set icons file
 		if (a.endsWith("txt")) {
 			iv.setImageResource(R.drawable.txt);
 		}
@@ -91,23 +91,23 @@ public class FileAdapter extends ArrayAdapter<Token> {
 		if (a.endsWith("pdf")) {
 			iv.setImageResource(R.drawable.pdf);
 		}
-		if (a.endsWith("ppt")|| a.endsWith("pptx")) {
+		if (a.endsWith("ppt") || a.endsWith("pptx")) {
 			iv.setImageResource(R.drawable.ppt);
 		}
 		if (a.endsWith("xls")) {
 			iv.setImageResource(R.drawable.xls);
 		}
-		if (a.endsWith("doc")|| a.endsWith("docx")) {
+		if (a.endsWith("doc") || a.endsWith("docx")) {
 			iv.setImageResource(R.drawable.doc);
 		}
-		if(a.endsWith("mp4")||a.endsWith("mpg")||a.endsWith("mpeg")){
+		if (a.endsWith("mp4") || a.endsWith("mpg") || a.endsWith("mpeg")) {
 			iv.setImageResource(R.drawable.mp4);
 		}
 
 		return convertView;
 	}
 
-	// method untuk filtering
+	// method for filtering
 	public void filter(String charText) {
 		charText = charText.toLowerCase(Locale.getDefault());
 		System.out.println("length arrayListToken::" + arrayListToken.size());

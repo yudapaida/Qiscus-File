@@ -3,12 +3,10 @@ package com.example.fileuploaduser;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.array;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,84 +15,65 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 public class FileFragmentAll extends Fragment {
 	EditText inputSearch;
 	ArrayAdapter<String> adapter;
-	private ListView ListViewAcara;
 
 	private ArrayList<Token> ListFile = new ArrayList<Token>();
 	private FileAdapter fileAdapter;
 	private String TokenToken;
-	
-	private ImageView iv;
 
 	@Override
-		public void onActivityCreated(Bundle savedInstanceState) {
-			// TODO Auto-generated method stub
-			super.onActivityCreated(savedInstanceState);
-			System.out.println("A");
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		System.out.println("A");
 
-			//ambil token
-			MainActivity getMyToken = (MainActivity) getActivity();
-			TokenToken = getMyToken.getToken();
-			
+		// get token
+		MainActivity getMyToken = (MainActivity) getActivity();
+		TokenToken = getMyToken.getToken();
 
-			
-			
-//			ambil type file
-//			MainActivity getFileType = (MainActivity) getActivity();
-//			type = getFileType.getType();
-//			
-			System.out.println("oncreate");
-			GetFile getEvent = new GetFile(getActivity()) {
+		System.out.println("oncreate");
+		GetFile getEvent = new GetFile(getActivity()) {
 
-				@Override
-				public void respon(String respons) {
-					// TODO Auto-generated method stub
-					System.out.println(respons);
+			@Override
+			public void respon(String respons) {
+				// TODO Auto-generated method stub
+				System.out.println(respons);
 
-					try {
-						JSONArray myFiles = new JSONArray(respons);
-						// JSONArray arrayEvent =
-						// objEvent.getJSONArray("listEvent");
+				try {
+					JSONArray myFiles = new JSONArray(respons);
 
-						for (int i = 0; i < myFiles.length(); i++) {
-							JSONObject objectAcara = myFiles.getJSONObject(i);
+					for (int i = 0; i < myFiles.length(); i++) {
+						JSONObject objectAcara = myFiles.getJSONObject(i);
 
-							String namaFile = objectAcara.getString("filename");
-							String Url = objectAcara.getString("url");
-							
-							//untuk file type
-//							if(Url.endsWith("txt")){
-//								iv = (ImageView) FindListener
-//							}
-							Token singleAcara = new Token(namaFile, Url);
-							ListFile.add(singleAcara);
-							
-						}
-						fileAdapter.notifyDataSetChanged();
-						fileAdapter.setSecondaryData();
+						String namaFile = objectAcara.getString("filename");
+						String Url = objectAcara.getString("url");
 
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Token singleAcara = new Token(namaFile, Url);
+						ListFile.add(singleAcara);
+
 					}
+					fileAdapter.notifyDataSetChanged();
+					fileAdapter.setSecondaryData();
 
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 
-			};
-			
-			getEvent.execute("https://www.qisc.us/api/v1/mobile/getFiles?token="+TokenToken+"&all=true");
-			
-			
-		}
-	
+			}
+
+		};
+
+		getEvent.execute("https://www.qisc.us/api/v1/mobile/getFiles?token="
+				+ TokenToken + "&all=true");
+
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -123,13 +102,13 @@ public class FileFragmentAll extends Fragment {
 		System.out.println("E");
 		View v = inflater.inflate(R.layout.filepage, container, false);
 		ListView lv = (ListView) v.findViewById(R.id.listView1);
-		
+
 		fileAdapter = new FileAdapter(getActivity(), R.layout.item_filepage,
 				ListFile);
 
 		lv.setAdapter(fileAdapter);
 
-
+		// searching method
 		inputSearch = (EditText) v.findViewById(R.id.cari);
 		inputSearch.addTextChangedListener(new TextWatcher() {
 

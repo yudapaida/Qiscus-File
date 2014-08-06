@@ -12,20 +12,17 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener {
 
 	Button loginBtn;
 	EditText aemail, apass, pesan;
-	private String url = "https://www.qisc.us/users/sign_in.json";
 	private ProgressDialog loading;
 
 	@Override
@@ -52,13 +49,14 @@ public class LoginActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 
-		// mengolah json
+		// to processing json
 		KirimDataAsync kirimAsync = new KirimDataAsync() {
 			@Override
 			public void respon(String result) {
 				// TODO Auto-generated method stub
 				try {
 
+					long start = System.currentTimeMillis();
 					JSONObject objTOken = new JSONObject(result);
 
 					String Success = objTOken.getString("success");
@@ -68,15 +66,16 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 					if (Success == "true") {
 						ShowToast("Login Success!");
-						System.out.println(Token);
+						// System.out.println(Token);
 						loading.dismiss();
-						
+
 						PindahHalaman(Token);
-					}
-					if (Success == "false") {
+					} else {
 						ShowToast("Username or Password failed!");
 					}
 
+					long end = System.currentTimeMillis();
+					System.out.println("respon setelah click " + (end - start));
 				} catch (JSONException e) {
 					// TODO: handle exception
 				}
@@ -87,25 +86,24 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 	}
 
-	// membuat METHOD pesan jika gagal dan berhasil
+	// Make METHOD message
 	private void ShowToast(String pesan) {
 		// TODO Auto-generated method stub
 		Toast.makeText(getApplicationContext(), pesan, Toast.LENGTH_SHORT)
 				.show();
 	}
 
-	// membuat METHOD pindah halaman
-	private void PindahHalaman(String Token) {
+	// Make METHOD move page
+	private void PindahHalaman(String token) {
 		// diganti ke main
 		Intent pindah = new Intent(LoginActivity.this, MainActivity.class);
 
-		// parsing token dari loginActivity ke MainActivity
-		pindah.putExtra("token", Token);
+		pindah.putExtra("token", token);
 		startActivity(pindah);
 		finish();
 	}
 
-	// POST data ke dan dari API
+	// POST data from and to API
 	public abstract class KirimDataAsync extends
 			AsyncTask<String, String, String> {
 
@@ -115,17 +113,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 			super.onPreExecute();
 
 			// create the loading
-			// loading = ProgressDialog.show(LoginActivity.this, "", "Loading");
-			// new Thread() {
-			// public void run() {
-			// try {
-			// sleep(10000);
-			// } catch (Exception e) {
-			// Log.e("tag", e.getMessage());
-			// }
-			// loading.dismiss();
-			// }
-			// }.start();
 			loading = new ProgressDialog(LoginActivity.this);
 			loading.setMessage("Loading...");
 			loading.setIndeterminate(false);
@@ -137,6 +124,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
+
 			String respon = null;
 			ArrayList<NameValuePair> kirimkeapi = new ArrayList<NameValuePair>();
 
@@ -146,17 +134,23 @@ public class LoginActivity extends Activity implements OnClickListener {
 					.getText().toString()));
 
 			try {
+				long start = java.lang.System.currentTimeMillis();
 				respon = ClientToServer.eksekusiHttpPost(
 						"https://www.qisc.us/users/sign_in.json?", kirimkeapi);
-				System.out.println(respon);
+				// System.out.println(respon);
 
 				String res = respon.toString();
 				res = res.trim();
+				long end = java.lang.System.currentTimeMillis();
+				System.out.println("ini kirim data async " + (end - start));
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+			// System.out.println(end-start);
+
 			return respon;
 		}
 
